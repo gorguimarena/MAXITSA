@@ -1,0 +1,65 @@
+version: "3.9"
+
+services:
+  # ➤ Serveur Apache avec PHP
+  php:
+    image: php:8.2-apache
+    container_name: php-container
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  # ➤ PostgreSQL
+  db:
+    image: postgres:15
+    container_name: postgres-container
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+
+  # ➤ pgAdmin (interface web pour PostgreSQL)
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - backend
+
+  # ➤ Composer CLI
+  composer:
+    image: composer:2
+    container_name: composer
+    working_dir: /app
+    volumes:
+      - ./:/app
+    networks:
+      - backend
+
+volumes:
+  pgdata:
+
+networks:
+  backend:
+    driver: bridge
