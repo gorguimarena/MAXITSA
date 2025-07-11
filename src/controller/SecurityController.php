@@ -29,14 +29,15 @@ class SecurityController extends AbstractController
     }
     public function show(): void
     {
-        require_once '../templates/security/login.php';
+        $this->renderHtml('security/login.php');
     }
 
     public function inscript(string $n): void
     {
+        $this->session->start();
         switch ($n) {
             case '0':
-                require_once '../templates/security/inscription1.php';
+                $this->renderHtml('security/inscription1.php');
                 break;
             case '1':
 
@@ -47,12 +48,9 @@ class SecurityController extends AbstractController
                 $telephone = $_POST['telephone'] ?? '';
 
                 if ($this->compte_service->compteExiste($telephone)) {
-                    $this->$session->set('phone_exist', "Un compte avec ce numéro de téléphone existe déjà.");
-                    return;
-                }
-
-                if ($this->utilisateur_service->cniExiste($cni)) {
-                    $this->$session->set('cni_exist', "Une carte d'identité similaire est déjà enregistrée.");
+                    $this->session->set('errors', ['telephone' => "Un compte avec ce numéro de téléphone existe déjà."]);
+                    $this->session->set('old1', $_POST);
+                    $this->renderHtml('security/inscription1.php');
                     return;
                 }
 
@@ -66,12 +64,14 @@ class SecurityController extends AbstractController
                 if ($this->validator->hasErrors()) {
                     $errors = $this->validator->getErrors();
                     $this->session->set('errors', $errors);
-                    require '../templates/security/inscription1.php';
+                    $this->session->set('old1', $_POST);
+                    $this->renderHtml('security/inscription1.php');
                     return;
                 }
 
                 $this->session->set('inscription_step1', $_POST);
-                require_once '../templates/security/inscription2.php';
+                var_dump($_POST);
+                $this->renderHtml('security/inscription2.php');
                 break;
 
             case '2':
@@ -100,6 +100,7 @@ class SecurityController extends AbstractController
 
         if ($this->validator->hasErrors()) {
             $this->session->set('errors', $this->validator->getErrors());
+            $this->session->set('old2', array_merge($_POST, $_FILES));
             return;
         }
 
@@ -140,39 +141,33 @@ class SecurityController extends AbstractController
     }
 
 
-    public function index()
-    {
-        require_once '../templates/security/inscription1.php';
-    }
+    public function index() {}
 
     public function create(): void
     {
         $login = trim($_POST['login'] ?? '');
         $password = $_POST['password'] ?? '';
 
-        $validator = new Validator();
-
-
-        $validLogin = $validator->isRequired('login', $login);
-        $validPassword = $validator->isRequired('password', $password);
+        $validLogin = $this->validator->isRequired('login', $login);
+        $validPassword = $this->validator->isRequired('password', $password);
 
 
         $isEmail = false;
         $isPhone = false;
         if ($validLogin) {
-            $isEmail = $validator->isEmail('login', $login);
-            $isPhone = $validator->isPhone('login', $login);
+            $isEmail = $this->validator->isEmail('login', $login);
+            $isPhone = $this->validator->isPhone('login', $login);
 
             if (!$isEmail && !$isPhone) {
-                $validator->getErrors()['login'][] = "Le champ login doit être un email ou un numéro valide.";
+                $this->validator->getErrors()['login'][] = "Le champ login doit être un email ou un numéro valide.";
             }
         }
 
 
-        if ($validator->hasErrors() && !($isEmail || $isPhone)) {
-            $this->session->set('errors', $validator->getErrors());
+        if ($this->validator->hasErrors() && !($isEmail || $isPhone)) {
+            $this->session->set('errors', $this->validator->getErrors());
             $this->session->set('old', ['login' => $login]);
-            require_once '../templates/security/login.php';
+            $this->renderHtml('security/login.php');
             return;
         }
 
@@ -182,10 +177,10 @@ class SecurityController extends AbstractController
         if (!$user) {
             $this->session->set('errors', ['login' => ['Identifiants invalides.']]);
             $this->session->set('old', ['login' => $login]);
-            require_once '../templates/security/login.php';
+            $this->renderHtml('security/login.php');
             return;
         }
-        
+
         $this->session->set('user', $user->toArray());
         $this->headerLoc('/client/trans');
         exit;
@@ -195,7 +190,8 @@ class SecurityController extends AbstractController
 
     public function edit() {}
 
-    public function destroy() {
+    public function destroy()
+    {
         $this->session->destroy();
         header('Location: /');
     }

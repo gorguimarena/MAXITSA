@@ -1,3 +1,5 @@
+<<<<<<< Updated upstream
+=======
 <?php
 
 namespace APP\CORE\ABSTRACT;
@@ -10,7 +12,7 @@ use APP\CORE\Session;
 abstract class AbstractController extends Singleton
 {
     protected ?Session $session = null;
-    protected $commonlayout = "base";
+    protected $commonlayout = "security.layout.php";
 
     public function __construct()
     {
@@ -29,5 +31,17 @@ abstract class AbstractController extends Singleton
     abstract public function create();
     abstract public function edit();
     abstract public function destroy();
-    public function renderHtml(string $view, array $data = []) {}
+
+    protected function renderHtml(string $view, array $data = [])
+    {
+        extract($data);
+        ob_start();
+
+        require_once '../templates/' . $view;
+
+        $content = ob_get_clean();
+
+        require_once '../templates/layouts/' .$this->commonlayout;
+    }
 }
+>>>>>>> Stashed changes
