@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 <?php
 
 namespace APP\CORE\ABSTRACT;
@@ -44,4 +42,3 @@ abstract class AbstractController extends Singleton
         require_once '../templates/layouts/' .$this->commonlayout;
     }
 }
->>>>>>> Stashed changes
