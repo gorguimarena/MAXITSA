@@ -1,0 +1,20 @@
+FROM alpine:latest
+
+# Installer git, bash et openssh avec apk (le gestionnaire Alpine)
+RUN apk add --no-cache git bash openssh
+
+# Arguments pour correspondre à l'utilisateur hôte
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+# Créer un utilisateur et groupe gituser
+RUN addgroup -g ${GROUP_ID} gitgroup && \
+    adduser -u ${USER_ID} -G gitgroup -s /bin/bash -D -h /home/gituser gituser
+
+# Définir l'utilisateur, le répertoire de travail et la variable d'environnement HOME
+USER gituser
+ENV HOME=/home/gituser
+WORKDIR /workdir
+
+# Lancer bash par défaut
+CMD ["bash"]
