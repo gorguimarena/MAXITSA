@@ -1,0 +1,18 @@
+{
+    "name": "maxitsa/app",
+    "autoload": {
+        "psr-4": {
+            "MAXITSA\\ENTITY\\": "src/entity/",
+            "MAXITSA\\REPOSITORY\\": "src/repository/",
+            "MAXITSA\\CONTOLLER\\": "src/controller/",
+            "MAXITSA\\SERVICE\\": "src/service/",
+            "APP\\CORE\\": "app/core/",
+            "APP\\CORE\\ABSTRACT\\": "app/core/abstract/",
+            "APP\\CORE\\MIDDLEWARE\\": "app/core/middlewares/",
+            "APP\\CORE\\ENUM\\": "app/core/enum/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

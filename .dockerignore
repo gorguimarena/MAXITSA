@@ -1,0 +1,4 @@
+# Répertoires à ignorer
+vendor/
+.git/
+.subversion/

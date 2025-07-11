@@ -1,0 +1,65 @@
+<?php
+
+namespace MAXITSA\REPOSITORY;
+
+use APP\CORE\ABSTRACT\AbstractRepository;
+use APP\CORE\App;
+use APP\CORE\ENUM\ClassKey;
+use APP\CORE\ENUM\DependanceKey;
+use MAXITSA\ENTITY\Compte;
+use PDO;
+
+class CompteRepository extends AbstractRepository
+{
+    private ?PDO $pdo;
+
+    public function __construct()
+    {
+        $this->pdo = App::getDependencie(DependanceKey::DATABASE, ClassKey::DATABASE)->getConnection();
+    }
+
+    public function insert(Compte $compte): int
+    {
+        $sql = "INSERT INTO compte (numero_tel, solde, is_default, id_utilisateur)
+            VALUES (:numero_tel, :solde, :is_default, :id_utilisateur)";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute([
+            ':numero_tel' => $compte->getNumeroTel(),
+            ':solde' => $compte->getSolde(),
+            ':is_default' => $compte->isDefault(),
+            ':id_utilisateur' => $compte->getClient()->getId()
+        ]);
+
+        return (int) $this->pdo->lastInsertId();
+    }
+
+    public function findByTelephone(string $numero_tel): bool
+    {
+        $sql = "SELECT id FROM compte WHERE numero_tel = :tel";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['tel' => $numero_tel]);
+        return $stmt->fetch() !== false;
+    }
+
+    public function findDefaultCompteByUserId(int $userId): ?Compte
+    {
+        $stmt = $this->pdo->prepare("
+        SELECT c.*, u.id AS client_id
+        FROM compte c
+        JOIN utilisateur u ON u.id = c.id_utilisateur
+        WHERE c.id_utilisateur = :userId AND c.is_default = TRUE
+        LIMIT 1
+    ");
+        $stmt->execute(['userId' => $userId]);
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$data) {
+            return null;
+        }
+
+        return Compte::toObject($data);
+    }
+}
