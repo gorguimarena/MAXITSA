@@ -1,0 +1,5 @@
+FROM composer:2
+
+ENV HOME=/app
+RUN git config --global --add safe.directory /app
+WORKDIR /app

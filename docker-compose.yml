@@ -1,23 +1,21 @@
-version: "3.9"
+version: "3.8"
 
 services:
-  # ➤ Serveur Apache avec PHP
   php:
-    image: php:8.2-apache
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: custom-php:8.2
     container_name: php-container
     ports:
-      - "8000:80"
+      - "${SITE_PORT}:80"
     volumes:
       - ./:/var/www/html
     depends_on:
       - db
     networks:
       - backend
-    build:
-      context: .
-      dockerfile: Dockerfile
 
-  # ➤ PostgreSQL
   db:
     image: postgres:15
     container_name: postgres-container
@@ -33,7 +31,6 @@ services:
     networks:
       - backend
 
-  # ➤ pgAdmin (interface web pour PostgreSQL)
   pgadmin:
     image: dpage/pgadmin4
     container_name: pgadmin-container
@@ -47,9 +44,10 @@ services:
     networks:
       - backend
 
-  # ➤ Composer CLI
   composer:
-    image: composer:2
+    build:
+      context: .
+      dockerfile: Dockerfile.composer
     container_name: composer
     working_dir: /app
     volumes:

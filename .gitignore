@@ -1,0 +1,7 @@
+.env
+.env.prod
+.env.dev
+vendor/
+initPostgress.sql
+initSql.sql
+Dockerfile.git
