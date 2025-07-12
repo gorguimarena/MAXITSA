@@ -11,10 +11,7 @@ class Auth extends Middleware
 
     public function __invoke()
     {
-        
-       
         if ($this->session->get('user') === null) {
-            
             header('Location: /'); 
             exit; 
         }

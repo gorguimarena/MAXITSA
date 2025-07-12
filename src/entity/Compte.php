@@ -16,11 +16,19 @@ class Compte extends AbstractEntity
     public static function toObject(array $data): static
     {
         $compte = new static();
-
         $compte->setId($data['id']);
-        $compte->setSolde((float) $data['solde']);
-        $compte->setNumeroTel($data['numero_tel']);
-        $compte->setIsDefault((bool) $data['is_default']);
+
+        if (isset($data['solde'])) {
+            $compte->setSolde((float) $data['solde']);
+        }
+
+        if (isset($data['numero_tel'])) {
+            $compte->setNumeroTel($data['numero_tel']);
+        }
+
+        if (isset($data['is_default'])) {
+            $compte->setIsDefault((bool) $data['is_default']);
+        }
 
         if (isset($data['client']) && is_array($data['client'])) {
             $compte->setClient(Client::toObject($data['client']));
@@ -29,6 +37,7 @@ class Compte extends AbstractEntity
             $client->setId((int) $data['client_id']);
             $compte->setClient($client);
         }
+
 
         if (isset($data['transactions']) && is_array($data['transactions'])) {
             $transactions = [];
@@ -123,5 +132,10 @@ class Compte extends AbstractEntity
     public function setTransactions(array $transactions): void
     {
         $this->transactions = $transactions;
+    }
+
+    public function addTransactions(Transaction $transaction): void
+    {
+        $this->transactions[] = $transaction;
     }
 }

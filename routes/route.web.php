@@ -35,6 +35,11 @@ $routes = [
         KeyRoute::CONTROLLER->value => TransactionController::class,
         KeyRoute::ACTION->value => 'index',
         KeyRoute::MIDDLEWARES->value => [$middlewares[MiddlewareKey::AUTH->value]]
+    ],
+    '/service_commercial/trans' => [
+        KeyRoute::CONTROLLER->value => TransactionController::class,
+        KeyRoute::ACTION->value => 'index',
+        KeyRoute::MIDDLEWARES->value => [$middlewares[MiddlewareKey::AUTH->value]]
     ]
 ];
 

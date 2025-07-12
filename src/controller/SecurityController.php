@@ -54,6 +54,13 @@ class SecurityController extends AbstractController
                     return;
                 }
 
+                if ($this->utilisateur_service->cniExiste($cni)) {
+                    $this->session->set('errors', ['carte_identite' => "Un compte avec ce carte d'identite existe déjà."]);
+                    $this->session->set('old1', $_POST);
+                    $this->renderHtml('security/inscription1.php');
+                    return;
+                }
+
                 $this->validator->isRequired('prenom', $prenom);
                 $this->validator->isRequired('nom', $nom);
                 $this->validator->isRequired('adresse', $adresse);
@@ -96,7 +103,7 @@ class SecurityController extends AbstractController
         $pwd = $_POST['password'] ?? '';
         $confirmPwd = $_POST['confirm-password'] ?? '';
         $this->validator->isRequired('password', $pwd);
-        $this->validator->isSame('confirm-password', $pwd, 'password', $confirmPwd);
+        $this->validator->isSame('password', $pwd, 'confirm-password', $confirmPwd);
 
         if ($this->validator->hasErrors()) {
             $this->session->set('errors', $this->validator->getErrors());
@@ -135,7 +142,7 @@ class SecurityController extends AbstractController
         $is_success = $this->compte_service->createCompte($compte);
 
         $uri = $is_success ? '/?nc=nc' : '/';
-
+        $this->session->destroy();
         $this->headerLoc($uri);
         exit;
     }
@@ -181,8 +188,10 @@ class SecurityController extends AbstractController
             return;
         }
 
+        $this->session->destroy();
         $this->session->set('user', $user->toArray());
-        $this->headerLoc('/client/trans');
+
+        $this->headerLoc('trans');
         exit;
     }
 
@@ -193,6 +202,6 @@ class SecurityController extends AbstractController
     public function destroy()
     {
         $this->session->destroy();
-        header('Location: /');
+        $this->headerLoc('/');
     }
 }

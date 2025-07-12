@@ -23,8 +23,8 @@ class TransactionService extends Singleton
         return $this->transactionRepository->getTransactionsByUserDefaultAccount($userId);
     }
 
-    public function getTransactionsByCompte(int $compteId): array
+    public function getTransactionsByCompte(int $compteId, $data = []): array
     {
-        return $this->transactionRepository->findByCompte($compteId);
+        return $this->transactionRepository->findByCompte($compteId, $data);
     }
 }

@@ -14,7 +14,6 @@ class Crypter extends Middleware
         if (!empty($_POST['password']) && is_string($_POST['password'])) {
             $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
         }
-        
     }
 }
 

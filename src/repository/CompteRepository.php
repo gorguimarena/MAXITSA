@@ -56,10 +56,16 @@ class CompteRepository extends AbstractRepository
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        
+
         if (!$data) {
             return null;
         }
 
-        return Compte::toObject($data);
+        $compte = Compte::toObject($data);
+
+        
+
+        return $compte;
     }
 }

@@ -26,12 +26,12 @@ class Paiement extends Transaction {
     public static function toObject(array $data): static {
         $obj = new static();
         $obj->setId($data['id']);
-        $obj->setDateDebit($data['date_debit']);
+        $obj->setDateDebit($data['date_transaction']);
         $obj->setMontant((float)$data['montant']);
         $obj->setTypeTransaction(TypeTransaction::from($data['type_transaction']));
         $obj->setReferencePaiement($data['reference_paiement']);
         $obj->setBeneficiaire($data['beneficiaire']);
-        $obj->setCompteSource(Compte::toObject(['id' => $data['compte_source_id']]));
+        $obj->setCompteSource(Compte::toObject(['id' => $data['id_compte_source']]));
 
         return $obj;
     }
@@ -39,12 +39,12 @@ class Paiement extends Transaction {
     public function toArray(): array {
         return [
             'id' => $this->id,
-            'date_debit' => $this->dateDebit,
+            'type_transaction' => $this->dateDebit,
             'montant' => $this->montant,
             'type_transaction' => $this->type_transaction->value,
             'reference_paiement' => $this->reference_paiement,
             'beneficiaire' => $this->beneficiaire,
-            'compte_source_id' => $this->compte_source->getId()
+            'id_compte_source' => $this->compte_source->getId()
         ];
     }
 }

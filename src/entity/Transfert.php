@@ -30,8 +30,8 @@ class Transfert extends Transaction {
         $obj->setMontant((float)$data['montant']);
         $obj->setTypeTransaction(TypeTransaction::from($data['type_transaction']));
         $obj->setTypeTransfert(TypeTransfert::from($data['type_transfert']));
-        $obj->setCompteSource(Compte::toObject(['id' => $data['compte_source_id']])); 
-        $obj->setCompteDestinataire(Compte::toObject(['id' => $data['compte_destinataire_id']]));
+        $obj->setCompteSource(Compte::toObject(['id' => $data['id_compte_source']])); 
+        $obj->setCompteDestinataire(Compte::toObject(['id' => $data['id_compte_destinataire']]));
 
         return $obj;
     }
@@ -39,12 +39,12 @@ class Transfert extends Transaction {
     public function toArray(): array {
         return [
             'id' => $this->id,
-            'date_debit' => $this->dateDebit,
+            'type_transaction' => $this->dateDebit,
             'montant' => $this->montant,
             'type_transaction' => $this->type_transaction->value,
             'type_transfert' => $this->type_transfert->value,
-            'compte_source_id' => $this->compte_source->getId(),
-            'compte_destinataire_id' => $this->compteDestinataire->getId()
+            'id_compte_source' => $this->compte_source->getId(),
+            'id_compte_destinataire' => $this->compteDestinataire->getId()
         ];
     }
 }

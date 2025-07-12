@@ -17,6 +17,7 @@ class TransactionController extends AbstractController
     public function __construct()
     {
         parent::__construct();
+        $this->commonlayout = 'base.layout.php';
         $this->transactionService = App::getDependencie(DependanceKey::SERVICE, ClassKey::TRANSACTION_SERVICE);
         $this->compte_service = App::getDependencie(DependanceKey::SERVICE, ClassKey::COMPTE_SERVICE);
     }
@@ -29,12 +30,20 @@ class TransactionController extends AbstractController
             exit;
         }
 
-
         $compte = $this->compte_service->getDefaultCompteByUtilisateur($user['id']);
+        $data = [
+            'limit' => 10,
+            'offset' => 0,
+        ];
 
-        $transactions = $this->transactionService->getTransactionsByCompte($compte->getId());
+        $transactions = $this->transactionService->getTransactionsByCompte($compte->getId(), $data);
 
-        require_once '../templates/client/dashbord.php';
+        $data = [
+            'compte' => $compte,
+            'transactions' => $transactions
+        ];
+
+        $this->renderHtml('client/dashbord.php', $data);
     }
 
     public function show() {}

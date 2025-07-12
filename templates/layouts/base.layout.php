@@ -65,31 +65,7 @@
 
         <!-- Main content -->
         <main class="flex-1 p-6 lg:p-8">
-            <!-- Header -->
-            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 space-y-4 sm:space-y-0">
-                <div class="lg:hidden">
-                    <h1 class="text-2xl font-bold text-white mb-4">MAXIT-SA</h1>
-                </div>
-
-                <div class="bg-dark-card rounded-2xl p-6 inline-block">
-                    <div class="text-sm text-gray-400 mb-2">Total Solde</div>
-                    <div class="text-2xl font-bold text-white">
-                        <?= number_format($compte->getSolde(), 0, ',', ' ') ?> Fcfa
-                    </div>
-
-                </div>
-
-                <button class="bg-dark-card hover:bg-gray-700 transition-colors px-6 py-3 rounded-xl flex items-center space-x-2 self-start sm:self-auto">
-                    <span>Voir plus</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="bg-dark-card rounded-2xl p-6">
-                <?php echo $content ?>
-            </div>
+            <?php echo $content ?>
         </main>
     </div>
 </body>

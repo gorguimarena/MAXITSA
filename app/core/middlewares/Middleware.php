@@ -9,7 +9,7 @@ use APP\CORE\Session;
 
 abstract class Middleware extends Singleton{
     protected ?Session $session = null;
-    abstract protected function __invoke();
+    abstract public function __invoke();
 
     public function __construct(){
         $this->session =  App::getDependencie(DependanceKey::CORE, ClassKey::SESSION);    
