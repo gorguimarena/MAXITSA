@@ -43,7 +43,7 @@ class TransactionController extends AbstractController
             'transactions' => $transactions
         ];
 
-        $this->renderHtml('client/dashbord.php', $data);
+        $this->renderHtml('transaction/liste.php', $data);
     }
 
     public function show() {}

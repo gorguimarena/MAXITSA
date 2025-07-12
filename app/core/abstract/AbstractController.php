@@ -43,7 +43,6 @@ abstract class AbstractController extends Singleton
     protected function prefixFromUserType(string $loc, string $userType): string
     {
 
-
         if (isset($this->prefixes[$userType])) {
             return '/' . trim($this->prefixes[$userType] . '/' . ltrim($loc, '/'), '/');
         }
