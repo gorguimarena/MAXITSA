@@ -6,67 +6,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAXIT-SA Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'dark-bg': '#1a1a1a',
-                        'dark-card': '#2a2a2a',
-                        'dark-sidebar': '#171717',
-                        'accent-blue': '#3b82f6'
-                    }
-                }
-            }
+    <style>
+        .bg-dark-custom {
+            background-color: #1a1a1a;
         }
-    </script>
+
+        .bg-darker-custom {
+            background-color: #141414;
+        }
+
+        .bg-card-custom {
+            background-color: #2a2a2a;
+        }
+
+        .text-gray-custom {
+            color: #9ca3af;
+        }
+
+        .border-gray-custom {
+            border-color: #374151;
+        }
+    </style>
 </head>
 
-<body class="bg-dark-bg text-white font-sans">
-    <div class="flex min-h-screen">
+<body class="bg-dark-custom text-white min-h-screen">
+    <!-- Container principal -->
+    <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside class="w-64 bg-dark-sidebar p-6 flex flex-col h-screen lg:block hidden">
-            <div class="mb-12">
+        <div class="w-64 bg-darker-custom p-4 hidden md:block fixed left-0 top-0 h-full z-40">
+            <div class="mb-8">
                 <h1 class="text-2xl font-bold text-white">MAXIT-SA</h1>
             </div>
 
-            <nav class="flex-1 flex flex-col space-y-4 overflow-auto">
-                <a href="#" class="flex items-center space-x-3 text-gray-400 hover:text-white transition-colors">
-                    <div class="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center">
-                        <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+            <nav class="space-y-2">
+                <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
+                    <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                        <span class="text-xs">⚪</span>
                     </div>
-                    <span>Mes transactions</span>
-                </a>
-
-                <a href="#" class="flex items-center space-x-3 text-gray-400 hover:text-white transition-colors">
-                    <div class="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center">
-                        <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                    <span class="text-sm text-gray-custom">Mes Transactions</span>
+                </div>
+                <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
+                    <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                        <span class="text-xs">⚪</span>
                     </div>
-                    <span>Ajouter compte</span>
-                </a>
-
-                <a href="#" class="flex items-center space-x-3 text-gray-400 hover:text-white transition-colors">
-                    <div class="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center">
-                        <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+                    <span class="text-sm text-gray-custom">Ajouter compte</span>
+                </div>
+                <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
+                    <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                        <span class="text-xs">⚪</span>
                     </div>
-                    <span>Voir mes comptes</span>
-                </a>
+                    <span class="text-sm text-gray-custom">Voir mes comptes</span>
+                </div>
             </nav>
 
-            <div class="mt-auto pt-6">
-                <a href="/disconnect" class="flex items-center space-x-3 text-gray-400 hover:text-white transition-colors">
-                    <div class="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center">
-                        <div class="w-2 h-2 bg-gray-400 rounded-full"></div>
+            <!-- Bouton de déconnexion -->
+            <div class="absolute bottom-4 left-4">
+                <div class="flex items-center space-x-3 p-3 text-gray-custom hover:text-white cursor-pointer">
+                    <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                        <span class="text-xs">↗</span>
                     </div>
-                    <span>Se déconnecter</span>
-                </a>
+                    <span class="text-sm">Se déconnecter</span>
+                </div>
             </div>
-        </aside>
+        </div>
 
-        <!-- Main content -->
-        <main class="flex-1 p-6 lg:p-8">
+
+        <!-- Contenu principal -->
+        <div class="flex-1 p-6 md:ml-64">
             <?php echo $content ?>
-        </main>
+        </div>
+
+    </div>
+
+    <!-- Mobile menu button (visible on small screens) -->
+    <div class="md:hidden fixed top-4 left-4 z-50">
+        <button class="bg-card-custom p-2 rounded-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
     </div>
 </body>
 
