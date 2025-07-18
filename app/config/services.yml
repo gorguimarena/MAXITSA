@@ -1,0 +1,16 @@
+services:
+  - APP\CORE\ENUM\ClassKey
+  - APP\CORE\ENUM\DependanceKey
+  - APP\CORE\MIDDLEWARE\Auth
+  - MAXITSA\CONTOLLER\CompteController
+  - MAXITSA\CONTOLLER\SecurityController
+  - MAXITSA\CONTOLLER\TransactionController
+  - MAXITSA\CONTOLLER\UtilisateurController
+  - MAXITSA\ENTITY\Transaction
+  - MAXITSA\REPOSITORY\CompteRepository
+  - MAXITSA\REPOSITORY\TransactionRepository
+  - MAXITSA\REPOSITORY\UtilisateurRepository
+  - MAXITSA\SERVICE\CompteService
+  - MAXITSA\SERVICE\SecurityService
+  - MAXITSA\SERVICE\TransactionService
+  - MAXITSA\SERVICE\UtilisateurService

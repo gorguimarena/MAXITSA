@@ -48,5 +48,6 @@ try {
 
     $pdo->commit();
 } catch (\PDOException $pdoE) {
+    $pdo->rollBack();
     throw new PDOException("Une erreur s'est produit => " . $pdoE->getMessage());
 }
