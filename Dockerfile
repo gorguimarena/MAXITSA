@@ -1,16 +1,24 @@
 FROM php:8.2-apache
 
-# Installer les extensions nécessaires
-RUN apt-get update && apt-get install -y libpq-dev unzip \
+# Installer les dépendances système et extensions PHP
+RUN apt-get update && apt-get install -y \
+        libpq-dev \
+        unzip \
+        git \
+        curl \
     && docker-php-ext-install pdo_pgsql pgsql \
-    && a2enmod rewrite
+    && a2enmod rewrite \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ➤ Affichage des erreurs PHP dans le terminal
 RUN echo "display_errors=On\n\
 display_startup_errors=On\n\
 error_reporting=E_ALL" > /usr/local/etc/php/conf.d/docker-php-errors.ini
 
-# Config Apache (DocumentRoot dans /public)
+# ➤ Installer Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# ➤ Configuration Apache : root dans /public
 COPY . /var/www/html
 
 RUN echo '<VirtualHost *:80>\n\
@@ -22,15 +30,10 @@ RUN echo '<VirtualHost *:80>\n\
     </Directory>\n\
 </VirtualHost>' > /etc/apache2/sites-available/000-default.conf
 
-RUN a2enmod rewrite
-
-
+# ➤ Répertoire d'upload + droits
 RUN mkdir -p /var/www/html/public/images/uploads && \
     chown -R www-data:www-data /var/www/html/public/images/uploads && \
     chmod -R 775 /var/www/html/public/images/uploads
 
-
+# ➤ Lancer Apache
 CMD ["apache2-foreground"]
-
-
-

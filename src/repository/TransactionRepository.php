@@ -57,33 +57,31 @@ class TransactionRepository extends AbstractRepository
     public function findByCompte(int $compteId, array $data = []): array
     {
         $sql = "SELECT * FROM transaction 
-            WHERE id_compte_source = :id OR id_compte_destination = :id 
-            ORDER BY date_transaction DESC";
-
-        $limit = isset($data['limit']) ? (int) $data['limit'] : 10;
-        $offset = isset($data['offset']) ? (int) $data['offset'] : 0;
-
-        $sql .= " LIMIT :limit OFFSET :offset";
+            WHERE (id_compte_source = :id OR id_compte_destination = :id)";
 
         if (!empty($data['type'])) {
             $sql .= " AND type_transaction = :type";
         }
+
         if (!empty($data['date'])) {
-            $sql .= " AND DATE(date_transaction) = :date";
+            $sql .= " AND DATE(date_transaction) = DATE(:date)";
         }
 
+        $sql .= " ORDER BY date_transaction DESC LIMIT :limit OFFSET :offset";
 
         $stmt = $this->pdo->prepare($sql);
+
         $stmt->bindValue(':id', $compteId, PDO::PARAM_INT);
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', (int) ($data['limit'] ?? 10), PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int) ($data['offset'] ?? 0), PDO::PARAM_INT);
+
         if (!empty($data['type'])) {
             $stmt->bindValue(':type', $data['type']);
         }
+
         if (!empty($data['date'])) {
             $stmt->bindValue(':date', $data['date']);
         }
-
 
         $stmt->execute();
 
@@ -98,4 +96,5 @@ class TransactionRepository extends AbstractRepository
 
         return $transactions;
     }
+
 }

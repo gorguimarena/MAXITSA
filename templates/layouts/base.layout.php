@@ -39,35 +39,46 @@
             </div>
 
             <nav class="space-y-2">
-                <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
-                    <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
-                        <span class="text-xs">⚪</span>
-                    </div>
-                    <span class="text-sm text-gray-custom">Mes Transactions</span>
-                </div>
-                <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
-                    <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
-                        <span class="text-xs">⚪</span>
-                    </div>
-                    <span class="text-sm text-gray-custom">Ajouter compte</span>
-                </div>
-                <div class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
-                    <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
-                        <span class="text-xs">⚪</span>
-                    </div>
-                    <span class="text-sm text-gray-custom">Voir mes comptes</span>
-                </div>
+                <?php if (true) :  ?>
+                    <a href="/client/trans" class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
+                        <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                            <span class="text-xs">⚪</span>
+                        </div>
+                        <span class="text-sm text-gray-custom">Mes Transactions</span>
+                    </a>
+                    <a href="/client/add_account" class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
+                        <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                            <span class="text-xs">⚪</span>
+                        </div>
+                        <span class="text-sm text-gray-custom">Ajouter compte</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
+                        <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                            <span class="text-xs">⚪</span>
+                        </div>
+                        <span class="text-sm text-gray-custom">Voir mes comptes</span>
+                    </a>
+                <?php endif  ?>
+                <?php if (false) :  ?>
+                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
+                        <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                            <span class="text-xs">⚪</span>
+                        </div>
+                        <span class="text-sm text-gray-custom">Les Comptes</span>
+                    </a>
+
+                <?php endif  ?>
             </nav>
 
             <!-- Bouton de déconnexion -->
-            <div class="absolute bottom-4 left-4">
+            <a href="#" class="absolute bottom-4 left-4">
                 <div class="flex items-center space-x-3 p-3 text-gray-custom hover:text-white cursor-pointer">
                     <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
                         <span class="text-xs">↗</span>
                     </div>
                     <span class="text-sm">Se déconnecter</span>
                 </div>
-            </div>
+            </a>
         </div>
 
 

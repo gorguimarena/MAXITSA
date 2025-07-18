@@ -9,6 +9,7 @@ use APP\CORE\ENUM\DependanceKey;
 use MAXITSA\SERVICE\CompteService;
 use MAXITSA\SERVICE\TransactionService;
 
+
 class TransactionController extends AbstractController
 {
     private TransactionService $transactionService;
@@ -23,28 +24,32 @@ class TransactionController extends AbstractController
     }
 
     public function index(): void
-    {
-        $user = $this->session->get('user');
-        if (!$user) {
-            $this->headerLoc('/');
-            exit;
-        }
-
-        $compte = $this->compte_service->getDefaultCompteByUtilisateur($user['id']);
-        $data = [
-            'limit' => 10,
-            'offset' => 0,
-        ];
-
-        $transactions = $this->transactionService->getTransactionsByCompte($compte->getId(), $data);
-
-        $data = [
-            'compte' => $compte,
-            'transactions' => $transactions
-        ];
-
-        $this->renderHtml('transaction/liste.php', $data);
+{
+    $user = $this->session->get('user');
+    if (!$user) {
+        $this->headerLoc('/');
+        return;
     }
+
+    $compte = $this->compte_service->getDefaultCompteByUtilisateur($user['id']);
+
+    $data = [
+        'limit' => $_GET['limit'] ?? 10,
+        'offset' => $_GET['offset'] ?? 0,
+        'type' => $_GET['type'] ?? null,
+        'date' => $_GET['date'] ?? null
+    ];
+
+    $transactions = $this->transactionService->getTransactionsByCompte($compte->getId(), $data);
+
+    $this->renderHtml('transaction/liste.php', [
+        'compte' => $compte,
+        'transactions' => $transactions,
+        'filters' => $data,
+        'search' => $_GET['search'] ?? false,
+    ]);
+}
+
 
     public function show() {}
     public function create() {}

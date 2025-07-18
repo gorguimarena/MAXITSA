@@ -63,4 +63,8 @@ class CompteService extends Singleton
     {
         return $this->compte_repository->findDefaultCompteByUserId($userId);
     }
+
+    public function createSecond(Compte $c) : int {
+        return $this->compte_repository->insert($c);
+    }
 }

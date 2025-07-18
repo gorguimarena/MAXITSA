@@ -1,7 +1,7 @@
 <?php
 namespace APP\CORE\ABSTRACT;
 
-abstract class Singleton {
+class Singleton {
     private static array $instances = [];
 
     public static function getInstance(): static {

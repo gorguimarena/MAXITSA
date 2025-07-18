@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: custom-php:8.2
-    container_name: php-container
+    container_name: php
     ports:
       - "${SITE_PORT}:80"
     volumes:
@@ -18,7 +18,7 @@ services:
 
   db:
     image: postgres:15
-    container_name: postgres-container
+    container_name: postgres
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -33,7 +33,7 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin-container
+    container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
@@ -43,18 +43,6 @@ services:
       - db
     networks:
       - backend
-
-  composer:
-    build:
-      context: .
-      dockerfile: Dockerfile.composer
-    container_name: composer
-    working_dir: /app
-    volumes:
-      - ./:/app
-    networks:
-      - backend
-
 volumes:
   pgdata:
 

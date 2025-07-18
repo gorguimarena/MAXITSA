@@ -14,13 +14,11 @@ class FileLoader
     {
         $this->uploadDir = trim(Env::get('FILE_LOAD_IMAGES'), '/');
 
-        echo $this->uploadDir;
-
         if (!is_dir($this->uploadDir)) {
             if (!mkdir($this->uploadDir, 0775, true)) {
                 throw new \Exception("Impossible de créer le dossier de destination.");
             }
-        }
+        } 
     }
 
     public function saveUploadedImage(array $file): string

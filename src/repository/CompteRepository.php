@@ -50,22 +50,46 @@ class CompteRepository extends AbstractRepository
         FROM compte c
         JOIN utilisateur u ON u.id = c.id_utilisateur
         WHERE c.id_utilisateur = :userId AND c.is_default = TRUE
-        LIMIT 1
-    ");
+        LIMIT 1 ");
         $stmt->execute(['userId' => $userId]);
-
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        
-
         if (!$data) {
             return null;
         }
-
         $compte = Compte::toObject($data);
-
-        
-
         return $compte;
+    }
+
+    public function debit(int $id_compte, float $montant): int
+    {
+        try {
+            $query = "UPDATE compte SET solde = solde - :montant WHERE id = :id_compte";
+            $stmt = $this->pdo->prepare($query);
+
+            $stmt->execute([
+                'montant' => $montant,
+                'id_compte' => $id_compte
+            ]);
+        } catch (\PDOException $e) {
+            return 0;
+        }
+        return 1;
+    }
+
+    public function crediter(int $id_compte, float $montant): int
+    {
+        try {
+            $query = "UPDATE compte SET solde = solde + :montant WHERE id = :id_compte";
+            $stmt = $this->pdo->prepare($query);
+
+            $stmt->execute([
+                'montant' => $montant,
+                'id_compte' => $id_compte
+            ]);
+            
+        } catch (\PDOException $e) {
+            return 0;
+        }
+        return 1;
     }
 }

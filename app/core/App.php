@@ -1,4 +1,5 @@
 <?php
+
 namespace APP\CORE;
 
 use APP\CORE\ENUM\ClassKey;
@@ -50,21 +51,18 @@ class App
         ],
     ];
 
-    public static function  getDependencie(DependanceKey $group, ClassKey $className) : mixed
+    public static function  getDependencie(DependanceKey $group, ClassKey $className): mixed
     {
-        // var_dump('----------------');
-        // var_dump('Nom groupe '.$group->value);
-        // var_dump('----------------');
-        // var_dump('Nom Classe '.$className->value);
-        // var_dump('----------------');
         $groupeName = $group->value;
-        if (array_key_exists($groupeName, self::$dependencies) && array_key_exists($className->value ,self::$dependencies[$groupeName])) {
+        echo Env::get('METHODE_INSTANCE_NAME');
+        die;
+        if (array_key_exists($groupeName, self::$dependencies) && array_key_exists($className->value, self::$dependencies[$groupeName])) {
             if (!method_exists(self::$dependencies[$groupeName][$className->value], Env::get('METHODE_INSTANCE_NAME'))) {
-               throw new \Exception("Error Processing Request", 1);
+                throw new \Exception("Error Processing Request", 1);
             }
+
             return self::$dependencies[$groupeName][$className->value]::getInstance();
         }
         return throw new \Exception("La dependance $className->value est null", 1);
-        
     }
 }

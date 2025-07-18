@@ -1,6 +1,7 @@
 <?php
 namespace MAXITSA\ENTITY;
 
+
 class Transfert extends Transaction {
     private TypeTransfert $type_transfert;
     private Compte $compteDestinataire;

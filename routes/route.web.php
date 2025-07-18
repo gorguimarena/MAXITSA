@@ -1,6 +1,7 @@
 <?php
 use APP\CORE\ENUM\KeyRoute;
 use APP\CORE\ENUM\MiddlewareKey;
+use MAXITSA\CONTOLLER\CompteController;
 use MAXITSA\CONTOLLER\SecurityController;
 use MAXITSA\CONTOLLER\TransactionController;
 use MAXITSA\CONTOLLER\UtilisateurController;
@@ -36,6 +37,18 @@ $routes = [
         KeyRoute::ACTION->value => 'index',
         KeyRoute::MIDDLEWARES->value => [$middlewares[MiddlewareKey::AUTH->value]]
     ],
+    '/client/add_account' => [
+        KeyRoute::CONTROLLER->value => CompteController::class,
+        KeyRoute::ACTION->value => 'create',
+        KeyRoute::MIDDLEWARES->value => [$middlewares[MiddlewareKey::AUTH->value]]
+    ],
+    '/client/save_account' => [
+        KeyRoute::CONTROLLER->value => CompteController::class,
+        KeyRoute::ACTION->value => 'store',
+        KeyRoute::MIDDLEWARES->value => [$middlewares[MiddlewareKey::AUTH->value]]
+    ],
+
+    //service commercial
     '/service_commercial/trans' => [
         KeyRoute::CONTROLLER->value => TransactionController::class,
         KeyRoute::ACTION->value => 'index',
