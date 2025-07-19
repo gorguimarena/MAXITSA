@@ -4,9 +4,8 @@
 function updateEnvFile(array $data, $env = './.env'): void
 {
     if (!file_exists($env) && !touch($env)) {
-        throw new Exception("Une erreur s'est produite lors de la création du fichier .env !");
+        throw new Exception("Une erreur s'est produite lors de la création  du fichier .env !");
     }
-
     $contain = file($env, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
 
     foreach ($data as $fromData) {
