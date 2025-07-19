@@ -1,4 +1,5 @@
 <?php
+
 use MAXITSA\ENTITY\TypeTransaction;
 ?>
 <div class="mb-3">
@@ -48,6 +49,7 @@ use MAXITSA\ENTITY\TypeTransaction;
     </div> -->
 
     <!-- En-tête des colonnes -->
+    <!-- En-tête -->
     <div class="hidden md:grid md:grid-cols-2 gap-4 p-4 border-b border-gray-custom text-sm text-gray-custom">
         <div>Transactions</div>
         <div class="text-right">Date de transaction</div>
@@ -55,26 +57,33 @@ use MAXITSA\ENTITY\TypeTransaction;
 
     <!-- Liste des transactions -->
     <div class="divide-y divide-gray-custom px-2">
-        <!-- Transaction 1 -->
-        <?php foreach ($transactions as $t): ?>
-            <div class="p-2 grid grid-cols-1 md:grid-cols-2 gap-4 hover:bg-gray-800 transition-colors">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gray-600 rounded-lg flex items-center justify-center">
-                        <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                        </svg>
-                    </div>
-                    <div>
-                        <p class="font-medium"><?= ucfirst(strtolower($t->getTypeTransaction()->name)) ?></p>
-                        <p class="text-sm text-gray-custom"><?= number_format($t->getMontant(), 0, ',', ' ') ?> Fcfa</p>
-                    </div>
-                </div>
-                <div class="text-right md:text-right text-left">
-                    <p class="text-sm text-gray-custom"><?= date('d M Y', strtotime($t->getDateDebit())) ?></p>
-                </div>
+        <?php if (empty($transactions)): ?>
+            <div class="p-4 text-center text-gray-400 italic">
+                Aucune transaction pour le moment.
             </div>
-        <?php endforeach; ?>
+        <?php else: ?>
+            <?php foreach ($transactions as $t): ?>
+                <div class="p-2 grid grid-cols-1 md:grid-cols-2 gap-4 hover:bg-gray-800 transition-colors">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gray-600 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="font-medium"><?= ucfirst(strtolower($t->getTypeTransaction()->name)) ?></p>
+                            <p class="text-sm text-gray-custom"><?= number_format($t->getMontant(), 0, ',', ' ') ?> Fcfa</p>
+                        </div>
+                    </div>
+                    <div class="text-right md:text-right text-left">
+                        <p class="text-sm text-gray-custom"><?= date('d M Y', strtotime($t->getDateDebit())) ?></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
+
 
     <!-- Pagination -->
     <?php if ($search) :  ?>

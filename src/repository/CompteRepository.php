@@ -25,12 +25,13 @@ class CompteRepository extends AbstractRepository
 
         $stmt = $this->pdo->prepare($sql);
 
-        $stmt->execute([
-            ':numero_tel' => $compte->getNumeroTel(),
-            ':solde' => $compte->getSolde(),
-            ':is_default' => $compte->isDefault(),
-            ':id_utilisateur' => $compte->getClient()->getId()
-        ]);
+
+        $stmt->bindValue(':numero_tel', $compte->getNumeroTel());
+        $stmt->bindValue(':solde', $compte->getSolde());
+        $stmt->bindValue(':is_default', $compte->isDefault(), PDO::PARAM_BOOL);
+        $stmt->bindValue(':id_utilisateur', $compte->getClient()->getId());
+        $stmt->execute();
+
 
         return (int) $this->pdo->lastInsertId();
     }
@@ -86,7 +87,6 @@ class CompteRepository extends AbstractRepository
                 'montant' => $montant,
                 'id_compte' => $id_compte
             ]);
-            
         } catch (\PDOException $e) {
             return 0;
         }

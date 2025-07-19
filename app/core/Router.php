@@ -38,11 +38,6 @@ class Router
 
                 $controller = new $controllerName();
 
-                if (!is_callable([$controller, $action])) {
-                    echo "Erreur : méthode '$action' non trouvée dans " . get_class($controller);
-                    die;
-                }
-
                 call_user_func_array([$controller, $action], $params);
                 return;
             }

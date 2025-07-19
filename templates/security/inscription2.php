@@ -1,7 +1,6 @@
 <?php
 $errors = $this->session->get('errors') ?? [];
 $old = $this->session->get('old2')  ?? [];
-var_dump($errors);
 unset($_SESSION['errors'], $_SESSION['old2']);
 ?>
 

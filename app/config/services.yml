@@ -1,16 +1,59 @@
 services:
-  - APP\CORE\ENUM\ClassKey
-  - APP\CORE\ENUM\DependanceKey
-  - APP\CORE\MIDDLEWARE\Auth
-  - MAXITSA\CONTOLLER\CompteController
-  - MAXITSA\CONTOLLER\SecurityController
-  - MAXITSA\CONTOLLER\TransactionController
-  - MAXITSA\CONTOLLER\UtilisateurController
-  - MAXITSA\ENTITY\Transaction
-  - MAXITSA\REPOSITORY\CompteRepository
-  - MAXITSA\REPOSITORY\TransactionRepository
-  - MAXITSA\REPOSITORY\UtilisateurRepository
-  - MAXITSA\SERVICE\CompteService
-  - MAXITSA\SERVICE\SecurityService
-  - MAXITSA\SERVICE\TransactionService
-  - MAXITSA\SERVICE\UtilisateurService
+  DATABASE:
+    class: \PDO
+    arguments: 
+      - "%DSN%"
+      - "%DB_USER%"
+      - "%DB_PASSWORD%"
+
+  SESSION:
+    class: APP\CORE\Session
+    arguments: []
+
+  COMPTE_REPOSITOTY:
+    class: MAXITSA\REPOSITORY\CompteRepository
+    arguments: []
+
+  UTILISATEUR_REPOSITOTY:
+    class: MAXITSA\REPOSITORY\UtilisateurRepository
+    arguments: []
+
+  TRANSACTION_REPOSITOTY:
+    class: MAXITSA\REPOSITORY\TransactionRepository
+    arguments: []
+
+  COMPTE_SERVICE:
+    class: MAXITSA\SERVICE\CompteService
+    arguments: []
+
+  UTILISATEUR_SERVICE:
+    class: MAXITSA\SERVICE\UtilisateurService
+    arguments: []
+
+  SECURITY_SERVICE:
+    class: MAXITSA\SERVICE\SecurityService
+    arguments: []
+
+  TRANSACTION_SERVICE:
+    class: MAXITSA\SERVICE\TransactionService
+    arguments: []
+
+  UTILISATEUR_CONTROLLER:
+    class: MAXITSA\CONTOLLER\UtilisateurController
+    arguments: []
+
+  COMPTE_CONTROLLER:
+    class: MAXITSA\CONTOLLER\CompteController
+    arguments: []
+
+  SECURITY_CONTROLLER:
+    class: MAXITSA\CONTOLLER\SecurityController
+    arguments: []
+
+  TRANSACTION_CONTROLLER:
+    class: MAXITSA\CONTOLLER\TransactionController
+    arguments: []
+
+  AUTH_MIDDLEWARE:
+    class: APP\CORE\MIDDLEWARE\Auth
+    arguments: []

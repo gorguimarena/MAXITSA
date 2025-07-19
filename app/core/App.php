@@ -54,8 +54,6 @@ class App
     public static function  getDependencie(DependanceKey $group, ClassKey $className): mixed
     {
         $groupeName = $group->value;
-        echo Env::get('METHODE_INSTANCE_NAME');
-        die;
         if (array_key_exists($groupeName, self::$dependencies) && array_key_exists($className->value, self::$dependencies[$groupeName])) {
             if (!method_exists(self::$dependencies[$groupeName][$className->value], Env::get('METHODE_INSTANCE_NAME'))) {
                 throw new \Exception("Error Processing Request", 1);

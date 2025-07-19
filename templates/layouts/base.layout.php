@@ -71,7 +71,7 @@
             </nav>
 
             <!-- Bouton de déconnexion -->
-            <a href="#" class="absolute bottom-4 left-4">
+            <a href="/disconnect" class="absolute bottom-4 left-4">
                 <div class="flex items-center space-x-3 p-3 text-gray-custom hover:text-white cursor-pointer">
                     <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
                         <span class="text-xs">↗</span>

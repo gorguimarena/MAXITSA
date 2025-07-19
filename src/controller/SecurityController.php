@@ -77,7 +77,6 @@ class SecurityController extends AbstractController
                 }
 
                 $this->session->set('inscription_step1', $_POST);
-                var_dump($_POST);
                 $this->renderHtml('security/inscription2.php');
                 break;
 
