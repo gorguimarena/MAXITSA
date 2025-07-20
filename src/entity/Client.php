@@ -16,16 +16,15 @@ class Client extends Utilisateur
     {
         $client = new static();
 
-        
-        $client->setId($data['id']);
-        $client->setPassword($data['password']);
+        $client->setId($data['id_utilisateur'] ?? $data['id'] ?? '');
+        $client->setPassword($data['password'] ?? '');
         $client->setTypeUser(TypeUser::from($data['type']));
-        $client->prenom = $data['prenom'];
-        $client->nom = $data['nom'];
-        $client->cni = $data['cni'];
-        $client->cni_recto = $data['cni_recto'];
-        $client->cni_verso = $data['cni_verso'];
-        $client->adresse = $data['adresse'];
+        $client->prenom = $data['prenom'] ?? '';
+        $client->nom = $data['nom'] ?? '';
+        $client->cni = $data['cni'] ?? '';
+        $client->cni_recto = $data['cni_recto'] ?? '';
+        $client->cni_verso = $data['cni_verso'] ?? '';
+        $client->adresse = $data['adresse'] ?? '';
 
         return $client;
     }

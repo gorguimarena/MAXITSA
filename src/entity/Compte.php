@@ -13,19 +13,19 @@ class Compte extends AbstractEntity
     private Client $client;
     private array $transactions = [];
 
+    public function __construct()
+    {
+        $this->client = new Client();
+    }
+
     public static function toObject(array $data): static
     {
         $compte = new static();
         $compte->setId($data['id'] ?? 0);
         $compte->setSolde((float) $data['solde'] ?? 0.0);
+        $compte->setNumeroTel($data['numero_tel'] ?? '');
+        $compte->setIsDefault((bool) $data['is_default'] ?? false);
 
-        if (isset($data['numero_tel'])) {
-            $compte->setNumeroTel($data['numero_tel']);
-        }
-
-        if (isset($data['is_default'])) {
-            $compte->setIsDefault((bool) $data['is_default']);
-        }
 
         if (isset($data['client']) && is_array($data['client'])) {
             $compte->setClient(Client::toObject($data['client']));

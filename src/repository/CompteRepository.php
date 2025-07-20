@@ -12,6 +12,7 @@ use PDO;
 class CompteRepository extends AbstractRepository
 {
     private ?PDO $pdo;
+    private string $table = "compte";
 
     public function __construct()
     {
@@ -20,7 +21,7 @@ class CompteRepository extends AbstractRepository
 
     public function insert(Compte $compte): int
     {
-        $sql = "INSERT INTO compte (numero_tel, solde, is_default, id_utilisateur)
+        $sql = "INSERT INTO {$this->table} (numero_tel, solde, is_default, id_utilisateur)
             VALUES (:numero_tel, :solde, :is_default, :id_utilisateur)";
 
         $stmt = $this->pdo->prepare($sql);
@@ -38,7 +39,7 @@ class CompteRepository extends AbstractRepository
 
     public function findByTelephone(string $numero_tel): bool
     {
-        $sql = "SELECT id FROM compte WHERE numero_tel = :tel";
+        $sql = "SELECT id FROM {$this->table} WHERE numero_tel = :tel";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['tel' => $numero_tel]);
         return $stmt->fetch() !== false;
@@ -64,7 +65,7 @@ class CompteRepository extends AbstractRepository
     public function debit(int $id_compte, float $montant): int
     {
         try {
-            $query = "UPDATE compte SET solde = solde - :montant WHERE id = :id_compte";
+            $query = "UPDATE {$this->table} SET solde = solde - :montant WHERE id = :id_compte";
             $stmt = $this->pdo->prepare($query);
 
             $stmt->execute([
@@ -80,7 +81,7 @@ class CompteRepository extends AbstractRepository
     public function crediter(int $id_compte, float $montant): int
     {
         try {
-            $query = "UPDATE compte SET solde = solde + :montant WHERE id = :id_compte";
+            $query = "UPDATE {$this->table} SET solde = solde + :montant WHERE id = :id_compte";
             $stmt = $this->pdo->prepare($query);
 
             $stmt->execute([
@@ -91,5 +92,52 @@ class CompteRepository extends AbstractRepository
             return 0;
         }
         return 1;
+    }
+
+    public function selectByUserId(int $id_utilisateur): array
+    {
+        try {
+            $query = "SELECT * FROM {$this->table} WHERE id_utilisateur = :id ORDER BY is_default DESC";
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([
+                'id' => $id_utilisateur
+            ]);
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $comptes = [];
+            if (!$res) {
+                return [];
+            }
+
+            foreach ($res as $row) {
+                $comptes[] = Compte::toObject($row);
+            }
+
+            return $comptes;
+        } catch (\PDOException $e) {
+            return [];
+        }
+    }
+
+    public function rendrePrincipal(int $id_utilisateur, int $id_compte): int
+    {
+        try {
+
+            $this->pdo->beginTransaction();
+
+            $stmt = $this->pdo->prepare("UPDATE compte SET is_default = false WHERE id_utilisateur = :id_utilisateur");
+            $stmt->execute(['id_utilisateur' => $id_utilisateur]);
+
+            $stmt = $this->pdo->prepare("UPDATE compte SET is_default = true WHERE id = :id");
+            $stmt->execute(['id' => $id_compte]);
+
+            $this->pdo->commit();
+
+            return 1;
+        } catch (\PDOException $e) {
+            $this->pdo->rollBack();
+            return 0;
+        }
     }
 }

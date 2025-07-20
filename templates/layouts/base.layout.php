@@ -52,7 +52,7 @@
                         </div>
                         <span class="text-sm text-gray-custom">Ajouter compte</span>
                     </a>
-                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
+                    <a href="/client/comptes" class="flex items-center space-x-3 p-3 rounded-lg bg-gray-800">
                         <div class="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
                             <span class="text-xs">⚪</span>
                         </div>

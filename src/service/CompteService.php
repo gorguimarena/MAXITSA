@@ -67,4 +67,12 @@ class CompteService extends Singleton
     public function createSecond(Compte $c) : int {
         return $this->compte_repository->insert($c);
     }
+
+    public function get_comptes(int $id) : array {
+        return $this->compte_repository->selectByUserId($id);
+    }
+
+    public function compte_to_principale(int $id_compte, int $id_user) : int {
+        return $this->compte_repository->rendrePrincipal($id_user,$id_compte);
+    }
 }

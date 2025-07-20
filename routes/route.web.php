@@ -1,4 +1,5 @@
 <?php
+
 use APP\CORE\ENUM\KeyRoute;
 use APP\CORE\ENUM\MiddlewareKey;
 use MAXITSA\CONTOLLER\CompteController;
@@ -47,6 +48,16 @@ $routes = [
         KeyRoute::ACTION->value => 'store',
         KeyRoute::MIDDLEWARES->value => [$middlewares[MiddlewareKey::AUTH->value]]
     ],
+    '/client/comptes' => [
+        KeyRoute::CONTROLLER->value => CompteController::class,
+        KeyRoute::ACTION->value => 'index',
+        KeyRoute::MIDDLEWARES->value => [$middlewares[MiddlewareKey::AUTH->value]]
+    ],
+    '/client/compte/rendre-principal/{id}' => [
+        KeyRoute::CONTROLLER->value => CompteController::class,
+        KeyRoute::ACTION->value => 'update_compte',
+        KeyRoute::MIDDLEWARES->value => [$middlewares[MiddlewareKey::AUTH->value]]
+    ],
 
     //service commercial
     '/service_commercial/trans' => [
@@ -55,4 +66,3 @@ $routes = [
         KeyRoute::MIDDLEWARES->value => [$middlewares[MiddlewareKey::AUTH->value]]
     ]
 ];
-

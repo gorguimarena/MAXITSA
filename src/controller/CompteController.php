@@ -11,7 +11,6 @@ use MAXITSA\SERVICE\CompteService;
 
 class CompteController extends AbstractController
 {
-
     private CompteService $compte_service;
 
     public function __construct()
@@ -21,13 +20,27 @@ class CompteController extends AbstractController
         $this->compte_service = App::getDependencie(DependanceKey::SERVICE, ClassKey::COMPTE_SERVICE);
     }
 
-    public function index() {}
+    public function index() {
+        $id = $this->session->get('user')['id'];
+        $comptes =  $this->compte_service->get_comptes($id);
+
+        $this->renderHtml('compte/liste.php', ['comptes' => $comptes]);
+    }
     public function show() {}
+
     public function create()
     {
-        $this->renderHtml('transaction/new_compte.php');
+        $this->renderHtml('compte/new_compte.php');
     }
     public function edit() {}
+
+    public function update_compte(int $id) : void {
+        $id_user = $this->session->get('user')['id'];
+
+        $res = $this->compte_service->compte_to_principale($id,$id_user);
+
+        $this->headerLoc('comptes');
+    }
     public function destroy() {}
 
     public function store()
